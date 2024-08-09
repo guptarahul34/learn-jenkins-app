@@ -26,6 +26,7 @@ pipeline {
             steps {
                 echo "Test Stage"
                 sh '''
+                    npm --version
                     npm test
                 '''
             }
