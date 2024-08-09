@@ -17,6 +17,7 @@ pipeline {
                     npm ci
                     npm run build
                     ls -l
+                    echo ${GIT_COMMIT:0:8}
                 '''
             }
         }
