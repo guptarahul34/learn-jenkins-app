@@ -97,6 +97,15 @@ pipeline {
             }
         }
 
+        stage("Manual Approval") {
+            steps {
+                echo 'Deploying to Prod.......'
+                timeout(time: 1, unit: 'MINUTES') {
+                    input message: 'Are you ready to deploy ?', ok: 'Yes I am ready to deploy'
+                }
+            }
+        }
+
         stage('Deploy prod') {
             agent {
                 docker {
