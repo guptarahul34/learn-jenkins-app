@@ -21,6 +21,9 @@ function App() {
       <p>
           By Rahul Gupta
       </p>
+      <p>
+          Version - v1
+      </p>
     </div>
   );
 }
