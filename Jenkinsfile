@@ -89,7 +89,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL=""
+                CI_ENVIRONMENT_URL="FIXED_ME"
             }
 
             steps {
