@@ -7,6 +7,10 @@ pipeline {
     }
 
     stages {
+
+        stage("Build Custom Docker Image"){
+            sh "docker build -t my-playwright:${GIT_COMMIT:0:8}"
+        }
         
         stage('Build') {
             agent {
@@ -28,7 +32,7 @@ pipeline {
             }
         }
         
-
+        /*
         stage('Tests') {
             parallel {
                 stage('Unit Tests') {
@@ -79,7 +83,9 @@ pipeline {
                 }
             }
         }
+        */
 
+        /*
         stage('Deploy staging') {
             agent {
                 docker {
@@ -110,7 +116,9 @@ pipeline {
                 }
             }
         }
+        */
 
+        /*
         stage("Manual Approval") {
             steps {
                 echo 'Deploying to Prod.......'
@@ -119,7 +127,9 @@ pipeline {
                 }
             }
         }
+        */
 
+        /*
         stage('Deploy prod') {
             agent {
                 docker {
@@ -148,6 +158,7 @@ pipeline {
                 }
             }
         }
+        */
 
         
     }
