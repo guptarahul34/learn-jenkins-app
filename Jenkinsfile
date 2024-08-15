@@ -11,7 +11,8 @@ pipeline {
         stage("Build Custom Docker Image"){
             steps {
                 sh '''
-                    docker build -t my-playwright .
+                    short_commit=$(echo $GIT_COMMIT | cut -c1-8)
+                    docker build -t my-playwright:$short_commit .
                 '''
             }
         }
@@ -19,7 +20,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image "my-playwright"
+                    image "node:18-alpine"
                     reuseNode true
                 }
             }
@@ -28,6 +29,7 @@ pipeline {
                     ls -l
                     node --version
                     npm --version
+                    npm ci
                     npm run build
                     ls -l
                     echo ${GIT_COMMIT:0:8}
