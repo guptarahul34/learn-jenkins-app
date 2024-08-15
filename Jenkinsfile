@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sh '''
                     short_commit=$(echo $GIT_COMMIT | cut -c1-8)
-                    docker build -t my-playwright:$short_commit
+                    docker build -t my-playwright:$short_commit .
                 '''
             }
         }
