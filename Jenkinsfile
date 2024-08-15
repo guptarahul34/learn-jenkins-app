@@ -9,10 +9,12 @@ pipeline {
     stages {
 
         stage("Build Custom Docker Image"){
-            sh '''
-                short_commit=$(echo $GIT_COMMIT | cut -c1-8)
-                docker build -t my-playwright:$short_commit
-            '''
+            steps {
+                sh '''
+                    short_commit=$(echo $GIT_COMMIT | cut -c1-8)
+                    docker build -t my-playwright:$short_commit
+                '''
+            }
         }
         
         stage('Build') {
