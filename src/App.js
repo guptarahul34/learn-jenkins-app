@@ -22,7 +22,7 @@ function App() {
           By Rahul Gupta
       </p>
       <p>
-          Version - v2
+          Version - v3
       </p>
     </div>
   );
