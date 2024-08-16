@@ -7,26 +7,7 @@ pipeline {
     }
 
     stages {
-
-        stage("AWS") {
-            agent {
-                docker {
-                    image 'amazon/aws-cli'
-                    args "--entrypoint=''"
-                }
-            }
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'aws-cli', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-                    sh '''
-                        aws --version
-                        aws s3 ls
-                        aws s3 cp build s3://reactjs-app-rahulgupta --recursive  
-                    '''
-                }
-            }
-        }
-        
-        /*
+         
         stage('Build') {
             agent {
                 docker {
@@ -46,8 +27,27 @@ pipeline {
                 '''
             }
         }
+
+        stage("AWS") {
+            agent {
+                docker {
+                    image 'amazon/aws-cli'
+                    args "--entrypoint=''"
+                    reuseNode true
+                }
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'aws-cli', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                        aws --version
+                        aws s3 ls
+                        aws s3 cp build s3://reactjs-app-rahulgupta --recursive  
+                    '''
+                }
+            }
+        }
         
-        
+        /*
         stage('Tests') {
             parallel {
                 stage('Unit Tests') {
