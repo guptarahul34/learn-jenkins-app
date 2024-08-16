@@ -20,6 +20,7 @@ pipeline {
                     sh '''
                         aws --version
                         aws s3 ls
+                        aws s3 cp build/* arn:aws:s3:::reactjs-app-rahulgupta
                     '''
                 }
             }
