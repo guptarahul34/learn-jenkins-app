@@ -1,10 +1,12 @@
 pipeline {
     agent any
 
+    /*
     environment {
         NETLIFY_SITE_ID='b830000c-1482-4358-8d52-92419b1957e9'
         NETLIFY_AUTH_TOKEN=credentials('netlify-token')
     }
+    */
 
     stages {
          
@@ -17,14 +19,10 @@ pipeline {
             }
             steps {
                 sh '''
-                    ls -l
-                    node --version
-                    npm --version
                     npm ci
                     npm run build
-                    ls -l
-                    echo ${GIT_COMMIT:0:8}
                 '''
+                // echo ${GIT_COMMIT:0:8}
             }
         }
 
@@ -40,8 +38,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'aws-cli', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
                         aws --version
-                        aws s3 ls
-                        aws s3 sync build s3://reactjs-app-rahulgupta  
+                        aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json  
                     '''
                 }
             }
