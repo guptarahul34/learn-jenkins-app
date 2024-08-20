@@ -37,7 +37,9 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'aws-cli', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
                         aws --version
-                        aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json  
+                        aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json
+                        aws ecs update-service --cluster LearnJenkinsApp-Cluster-Prod --service 
+                        learns-jenkins-app --task-definition   LearnJenkinsApp-TaskDefinition-Prod:2
                     '''
                 }
             }
