@@ -9,6 +9,7 @@ pipeline {
 
     stages {
          
+        /* 
         stage('Build') {
             agent {
                 docker {
@@ -20,10 +21,11 @@ pipeline {
                 sh '''
                     npm ci
                     npm run build
+                    echo ${GIT_COMMIT:0:8}
                 '''
-                // echo ${GIT_COMMIT:0:8}
             }
         }
+        */
 
         stage("AWS") {
             agent {
@@ -38,8 +40,7 @@ pipeline {
                     sh '''
                         aws --version
                         aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json
-                        aws ecs update-service --cluster LearnJenkinsApp-Cluster-Prod --service 
-                        learns-jenkins-app --task-definition   LearnJenkinsApp-TaskDefinition-Prod:2
+                        aws ecs update-service --cluster LearnJenkinsApp-Cluster-Prod --service learns-jenkins-app --task-definition LearnJenkinsApp-TaskDefinition-Prod:2
                     '''
                 }
             }
