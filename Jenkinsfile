@@ -41,7 +41,7 @@ pipeline {
                     sh '''
                         aws --version
                         aws s3 ls
-                        aws s3 sync build s3://reactjs-app-rahulgupta --recursive  
+                        aws s3 sync build s3://reactjs-app-rahulgupta  
                     '''
                 }
             }
