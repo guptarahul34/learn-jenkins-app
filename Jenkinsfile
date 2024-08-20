@@ -37,11 +37,11 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'aws-cli', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                withCredentials([usernamePassword(credentialsId: 'aws-cli-credentials', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACEESS_KEY_ID')]) {
                     sh '''
                         aws --version
                         aws s3 ls
-                        aws s3 cp build s3://reactjs-app-rahulgupta --recursive  
+                        aws s3 sync build s3://reactjs-app-rahulgupta --recursive  
                     '''
                 }
             }
