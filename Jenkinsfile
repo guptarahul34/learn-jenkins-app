@@ -5,6 +5,9 @@ pipeline {
         // NETLIFY_SITE_ID='b830000c-1482-4358-8d52-92419b1957e9'
         // NETLIFY_AUTH_TOKEN=credentials('netlify-token')
         AWS_DEFAULT_REGION='us-east-1'
+        AWS_ECS_CLUSTER_PROD = 'LearnJenkinsApp-Cluster-Prod'
+        AWS_ECS_SERVICE_NAME = 'learns-jenkins-app'
+        AWS_TD_PROD = 'LearnJenkinsApp-TaskDefinition-Prod'
     }
 
     stages {
@@ -39,8 +42,10 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'aws-cli', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
                         aws --version
-                        aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json
-                        aws ecs update-service --cluster LearnJenkinsApp-Cluster-Prod --service learns-jenkins-app --task-definition LearnJenkinsApp-TaskDefinition-Prod:2
+                        yum install jq -y 
+                        TD_REVISION = $(aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json | jq ".taskDefinition.revision")
+                        aws ecs update-service --cluster $AWS_ECS_CLUSTER_PROD --service $AWS_ECS_SERVICE_NAME --task-definition $AWS_TD_PROD:$TD_REVISION
+                        aws ecs wait services-stable --cluster $AWS_ECS_CLUSTER_PROD --services $AWS_ECS_SERVICE_NAME
                     '''
                 }
             }
