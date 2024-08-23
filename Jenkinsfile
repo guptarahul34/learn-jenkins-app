@@ -43,7 +43,7 @@ pipeline {
                     sh '''
                         aws --version
                         yum install jq -y 
-                        TD_REVISION = $(aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json | jq ".taskDefinition.revision")
+                        TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json | jq ".taskDefinition.revision")
                         aws ecs update-service --cluster $AWS_ECS_CLUSTER_PROD --service $AWS_ECS_SERVICE_NAME --task-definition $AWS_TD_PROD:$TD_REVISION
                         aws ecs wait services-stable --cluster $AWS_ECS_CLUSTER_PROD --services $AWS_ECS_SERVICE_NAME
                     '''
