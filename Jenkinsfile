@@ -11,6 +11,7 @@ pipeline {
         REACT_APP_VERSION = "1.0.$BUILD_NUMBER"
         IMAGE_NAME = 'learnjenkinsapp'
         AWS_DOCKER_REGISTRY = '637423185685.dkr.ecr.us-east-1.amazonaws.com'
+        ECS_TASK_DEFINITION_PATH = 'aws/task-definition-prod.json'
     }
 
     stages {
@@ -30,7 +31,7 @@ pipeline {
                 '''
             }
         }
-
+/*
         stage('Build Docker Image') {
             agent {
                 docker {
@@ -63,14 +64,15 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'aws-cli', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
                         aws --version 
-                        sed -i "s/#APP_VERSION#/$REACT_APP_VERSION/g" aws/task-definition-prod.json
-                        LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json | jq ".taskDefinition.revision")
+                        sed -i "s/#APP_VERSION#/$REACT_APP_VERSION/g" $ECS_TASK_DEFINITION_PATH
+                        LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://$ECS_TASK_DEFINITION_PATH | jq ".taskDefinition.revision")
                         aws ecs update-service --cluster $AWS_ECS_CLUSTER_PROD --service $AWS_ECS_SERVICE_NAME --task-definition $AWS_TD_PROD:$LATEST_TD_REVISION
                         aws ecs wait services-stable --cluster $AWS_ECS_CLUSTER_PROD --services $AWS_ECS_SERVICE_NAME
                     '''
                 }
             }
         }
+        */
 
         
         /*
