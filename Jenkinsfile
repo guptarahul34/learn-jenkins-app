@@ -8,6 +8,8 @@ pipeline {
         AWS_ECS_CLUSTER_PROD = 'LearnJenkinsApp-Cluster-Prod'
         AWS_ECS_SERVICE_NAME = 'learns-jenkins-app'
         AWS_TD_PROD = 'LearnJenkinsApp-TaskDefinition-Prod'
+        REACT_APP_VERSION = "1.0.$BUILD_NUMBER"
+        IMAGE_NAME = 'learnjenkinsapp'
     }
 
     stages {
@@ -38,11 +40,12 @@ pipeline {
             }
             steps {
                 sh '''
-                    docker build -t myjenkinsapp .
+                    docker build -t $IMAGE_NAME:$REACT_APP_VERSION .
                 '''
             }
         }
 
+        /*
         stage("AWS") {
             agent {
                 docker {
@@ -62,6 +65,7 @@ pipeline {
                 }
             }
         }
+        */
         
         /*
         stage('Tests') {
