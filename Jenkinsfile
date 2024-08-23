@@ -50,7 +50,7 @@ pipeline {
             }
         }
 
-        /*
+
         stage("AWS") {
             agent {
                 docker {
@@ -70,7 +70,7 @@ pipeline {
                 }
             }
         }
-        */
+
         
         /*
         stage('Tests') {
